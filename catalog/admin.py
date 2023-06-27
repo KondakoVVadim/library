@@ -6,10 +6,14 @@ from .models import Author, Genre, Book, BookInstance
 
 # admin.site.register(Book)
 # admin.site.register(Author)
-admin.site.register(Genre)
-
-
+# admin.site.register(Genre)
 # admin.site.register(BookInstance)
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
@@ -19,15 +23,17 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
+    filter_vertical = ['genre']
 
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('status', 'due_back')
+    list_display = ('book', 'status', 'borrower', 'due_back', 'id')
+    list_filter = ('status', 'due_back',)
 
     fieldsets = (
         (None, {
-            'fields': ('id','book', 'imprint')
+            'fields': ('id', 'book', 'imprint', 'borrower')
         }),
         ('Availability', {
             'fields': ('status', 'due_back')

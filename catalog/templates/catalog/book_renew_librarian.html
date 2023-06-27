@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+
+    <h1>Обновить дату: {{bookinst.book.title}}</h1>
+    <p>Заемщик: {{bookinst.borrower}}</p>
+    <p>Дата возврата: {{bookinst.due_back}}</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

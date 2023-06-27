@@ -1,18 +1,18 @@
 {% extends "catalog/base.html" %}
 
 {% block content %}
-<h1>Local Library Home</h1>
+<h1>Библиотека "Born in the Bookshelf"</h1>
 
-  <p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
+  <p>Добро пожаловать в библиотеку <em>"у Вадима"</em>, эта библиотека представлена как проект разработчика</p>
 
-<h2>Dynamic content</h2>
+<h2>Наш контент</h2>
 
-  <p>The library has the following record counts:</p>
+  <p>Библиотека имеет следующее количество записей:</p>
   <ul>
-    <li><strong>Books:</strong> {{ num_books }}</li>
-    <li><strong>Copies:</strong> {{ num_instances }}</li>
-    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
-    <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Книги:</strong> {{ num_books }}</li>
+    <li><strong>Копии:</strong> {{ num_instances }}</li>
+    <li><strong>Доступные копии:</strong> {{ num_instances_available }}</li>
+    <li><strong>Авторы:</strong> {{ num_authors }}</li>
   </ul>
 
 {% endblock %}

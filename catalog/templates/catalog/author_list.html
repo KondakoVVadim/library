@@ -1,0 +1,33 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h1>Список авторов</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Введите запрос">
+    <button type="submit">Найти</button>
+</form>
+{% if results %}
+<h4>Результаты поиска:</h4>
+<ul>
+    {% for author in results %}
+    <li>
+        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a> ({{author.date_of_birth}} - {{author.date_of_death}})
+    </li>
+    {% endfor %}
+</ul>
+
+{% elif author_list %}
+<ul>
+
+    {% for author in author_list %}
+    <li>
+        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a>
+        ({{author.date_of_birth}} - {{author.date_of_death}})
+    </li>
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>There are no books in the library.</p>
+{% endif %}
+{% endblock %}

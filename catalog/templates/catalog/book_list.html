@@ -1,19 +1,47 @@
 {% extends "catalog/base.html" %}
 
+
 {% block content %}
-    <h1>Book List</h1>
 
-    {% if book_list %}
-    <ul>
+<div>
+<div>
+<h1>Список книг</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Введите запрос">
+    <button type="submit">Найти</button>
+</form>
+{% if results %}
+<h4>Результаты поиска:</h4>
+<ul>
+    {% for book in results %}
+    <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+    </li>
+    {% endfor %}
+</ul>
 
-      {% for book in book_list %}
-      <li>
-        <a href="{{ Book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
-      </li>
-      {% endfor %}
+{% elif book_list %}
+<ul>
 
-    </ul>
-    {% else %}
-      <p>There are no books in the library.</p>
-    {% endif %}
+    {% for book in book_list %}
+    <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no books in the library.</p>
+{% endif %}
+</div>
+
+<form method="get">
+    {% for i in genre %}
+    <input type="checkbox" id="genre_{{ i.id }}" name="chekbox" value="{{ i.id }}">
+    <label for="genre_{{ i.id }}"> {{ i.name }}</label><br>
+    {% endfor %}
+    <button type="submit">Найти</button>
+</form>
+</div>
+
+
 {% endblock %}
