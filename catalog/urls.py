@@ -37,5 +37,5 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('<str:id>', views.BookListView.as_view())
+    path('<str:id>', views.get_book)
 ]

@@ -90,6 +90,17 @@ class BookDetailView(generic.TemplateView):
         context['book'] = book
         return context
 
+    def post(self, request, id):
+        copy_id = request.POST.get('copy_id')
+        borrower_id = request.POST.get('borrower')
+        copy = get_object_or_404(BookInstance, id=copy_id)
+        copy.status = 'o'  # Например, измените статус на 'b' (занят)
+        copy.borrower_id = borrower_id  # Установите идентификатор заемщика
+
+        copy.save()
+
+        return redirect('book-detail', id=id)
+
 class AuthorListView(generic.ListView):
     model = Author
 
@@ -250,5 +261,10 @@ def return_book(request, id):
     return redirect('all-borrowed')
 
 def get_book(request, id):
-    if request.method.POST:
-        return redirect('books')
+    if request.method == 'POST':
+        copy_id = BookInstance.objects.get(id=id)
+        copy_id.status = 'o'
+        copy_id.borrower = request.user
+        id = copy_id.book.id
+        copy_id.save()
+        return redirect('book-detail', id=id)
