@@ -268,3 +268,19 @@ def get_book(request, id):
         id = copy_id.book.id
         copy_id.save()
         return redirect('book-detail', id=id)
+
+
+from django.contrib.auth.forms import UserCreationForm
+class SignUp(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
+
+    def form_valid(self, form):
+        # Проверяем правильность введенных данных
+        if form.is_valid():
+            return super().form_valid(form)
+        else:
+            # Если есть ошибки, передаем их в контекст представления
+            context = self.get_context_data(form=form)
+            return self.render_to_response(context)

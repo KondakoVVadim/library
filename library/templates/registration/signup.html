@@ -1,10 +1,25 @@
 {% extends 'catalog/base.html' %}
 
 {% block content %}
-  <h2>Регистрация</h2>
-  <form method="post">
+<h2>Register</h2>
+
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
-  </form>
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="error">
+                    {% for error in field.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <input type="submit" value="Регистрация">
+</form>
+<p><a href="{% url 'login' %}">Вернуться назад</a></p>
+<p><a href="{% url 'index' %}">Назад на главную</a></p>
 {% endblock %}

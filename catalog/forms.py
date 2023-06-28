@@ -26,3 +26,6 @@ class BookForm(forms.ModelForm):
             'genre': forms.CheckboxSelectMultiple(),  # или forms.CheckboxSelectMultiple()
         }
 
+
+class LoginForm:
+    pass
