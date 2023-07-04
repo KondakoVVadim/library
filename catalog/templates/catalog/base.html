@@ -25,14 +25,14 @@
                 <li><a href=" {% url 'books' %} ">Список книг</a></li>
                 <li><a href=" {% url 'authors' %} ">Список авторов</a></li>
                 {% if user.is_authenticated %}
-                <li class="pidor">Пользователь: {{ user.get_username }}</li>
+                <li class="pidor"><b>Пользователь:</b> {{ user.get_username }}</li>
                 <li><a href="{% url 'my-borrowed' %}">Мои книги</a></li>
                 <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
                 {% else %}
                 <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>
                 {% endif %}
                 {% if user.is_superuser %}
-                <li>Staff</li>
+                <li><b>Настройки администатора</b></li>
                 <li><a href="{% url 'all-borrowed' %}">All Borrowed</a></li>
                 <li class="pidor"><a href="/admin">Админ</a></li>
                 <li><a href="{% url 'book-create' %}">Добавить книгу</a></li>
