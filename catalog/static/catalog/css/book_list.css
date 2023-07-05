@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  margin:20px;
+}
+
+.book-list {
+  flex-grow: 1;
+}
+
+.genre-form {
+    width:250px;
+    padding-left:20px;
+    padding-bottom:20px;
+    background-color:white;
+}
+
+.search {
+    margin-bottom:20px;
+}

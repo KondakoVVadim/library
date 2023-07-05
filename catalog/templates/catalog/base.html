@@ -11,9 +11,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'catalog/css/style.css' %}">
+    {% block css %} {% endblock %}
 </head>
 
 <body>
+<header>
+    <div class="header-navigation">
+        <div>
+            <img class="logo"
+                 src="https://st2.depositphotos.com/1069290/5358/v/950/depositphotos_53581759-stock-illustration-book-icon-vector-logo.jpg"
+                 alt="">
+            <a href="{% url 'index'%}">Born in the Bookshelf</a>
+        </div>
+        <ul class="auntificated">
+            {% if user.is_authenticated %}
+            <li><b>Пользователь:</b> {{ user.get_username }}</li>
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
+            {% else %}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+</header>
 
 <div class="container-fluid">
 

@@ -1,7 +1,7 @@
 {% extends "catalog/base.html" %}
 
 {% block content %}
-<h1>Title: {{ book.title }}</h1>
+<h1>Название: {{ book.title }}</h1>
 
 <p><strong>Автор:</strong> <a href=" {% url 'author-detail' book.author.id %} ">{{ book.author }}</a>
 </p> <!-- author detail link not yet defined -->
@@ -22,13 +22,13 @@
     <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">
         {{ copy.get_status_display }}</p>
     {% if copy.status != 'a' %}
-    <p><strong>Due to be returned:</strong> {{copy.due_back}}</p>
-    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p><strong>Дата возврата:</strong> {{copy.due_back}}</p>
+    <p><strong>Номер книги:</strong> {{copy.imprint}}</p>
     <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
     {% endif %}
     {% if copy.status == 'a' %}
-    <p><strong>Due to be returned:</strong> {{copy.due_back}}</p>
-    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p><strong>Дата возврата:</strong> {{copy.due_back}}</p>
+    <p><strong>Номер книги:</strong> {{copy.imprint}}</p>
     <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
     <form action="/catalog/{{ copy.id }}" method="post">
         {% csrf_token %}

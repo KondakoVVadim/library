@@ -2,8 +2,11 @@ from django import forms
 
 from django.core.exceptions import ValidationError
 import datetime
+
+
 class RenewBookForm(forms.Form):
-    renewal_date = forms.DateField(label='Дата возврата',help_text="Введите дату между настоящим моментом и 4 неделями (по умолчанию 3).")
+    renewal_date = forms.DateField(label='Дата возврата',
+                                   help_text="Введите дату между настоящим моментом и 4 неделями (по умолчанию 3).")
 
     def clean_renewal_date(self):
         data = self.cleaned_data['renewal_date']
@@ -12,11 +15,13 @@ class RenewBookForm(forms.Form):
             raise ValidationError(('Неверная дата - продление в прошлом'))
 
         elif data > datetime.date.today() + datetime.timedelta(weeks=4):
-            raise ValidationError(('Неверная дата - продление более чем на 4 недели вперед'))
+            raise ValidationError(('Неверная дата - продление более чем на 4 недели вперед'))
 
         return data
 
+
 from .models import Book
+
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -25,7 +30,3 @@ class BookForm(forms.ModelForm):
         widgets = {
             'genre': forms.CheckboxSelectMultiple(),  # или forms.CheckboxSelectMultiple()
         }
-
-
-class LoginForm:
-    pass
