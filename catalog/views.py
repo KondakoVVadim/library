@@ -5,7 +5,6 @@ from .models import Book, Author, BookInstance, User, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.decorators import user_passes_test
@@ -21,9 +20,11 @@ from .forms import RenewBookForm
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .forms import BookForm
+from .forms import BookForm, AuthorForm
 
 import datetime
+
+
 def index(request):
     """
     Функция отображения для домашней страницы сайта.
@@ -80,6 +81,8 @@ class BookListView(generic.ListView):
         return context
 
 
+
+
 class BookDetailView(generic.TemplateView):
     template_name = 'catalog/book_detail.html'
 
@@ -90,16 +93,6 @@ class BookDetailView(generic.TemplateView):
         context['book'] = book
         return context
 
-    def post(self, request, id):
-        copy_id = request.POST.get('copy_id')
-        borrower_id = request.POST.get('borrower')
-        copy = get_object_or_404(BookInstance, id=copy_id)
-        copy.status = 'o'  # Например, измените статус на 'b' (занят)
-        copy.borrower_id = borrower_id  # Установите идентификатор заемщика
-
-        copy.save()
-
-        return redirect('book-detail', id=id)
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -141,6 +134,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
+
 class RenewBookForm(forms.Form):
     renewal_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
@@ -154,6 +148,8 @@ class RenewBookForm(forms.Form):
         #     raise ValidationError('Неверная дата - продление более чем на 4 недели вперед')
 
         return data
+
+
 @permission_required('catalog.can_mark_returned')
 def renew_book_librarian(request, pk):
     """
@@ -202,8 +198,8 @@ class all_borrowed_books(generic.ListView):
 
 class AuthorCreate(CreateView):
     model = Author
-    fields = '__all__'
-    initial = {'date_of_death': '12/10/2016', }
+    form_class = AuthorForm
+    template_name = 'catalog/author_create.html'
 
 
 class AuthorUpdate(UpdateView):
@@ -236,6 +232,7 @@ class BookDelete(DeleteView):
 class BookInstanceCreate(CreateView):
     model = BookInstance
     fields = '__all__'
+    success_url = reverse_lazy('bookInstance-create')
 
 
 class BookInstanceUpdate(UpdateView):
@@ -251,14 +248,18 @@ class BookInstanceDelete(DeleteView):
 from django.shortcuts import get_object_or_404, redirect
 from catalog.models import BookInstance
 
+
 def return_book(request, id):
     book_instance = get_object_or_404(BookInstance, id=id)
 
     # Установите статус книги на "d" (возвращена)
     book_instance.status = 'a'
+    book_instance.borrower = None
+    book_instance.due_back = None
     book_instance.save()
 
     return redirect('all-borrowed')
+
 
 def get_book(request, id):
     if request.method == 'POST':
@@ -266,11 +267,14 @@ def get_book(request, id):
         copy_id.status = 'o'
         copy_id.borrower = request.user
         id = copy_id.book.id
+        copy_id.due_back = datetime.date.today() + datetime.timedelta(weeks=3)
         copy_id.save()
         return redirect('book-detail', id=id)
 
 
 from django.contrib.auth.forms import UserCreationForm
+
+
 class SignUp(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")

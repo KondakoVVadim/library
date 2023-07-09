@@ -1,13 +1,16 @@
 .container {
   display: flex;
-  margin:20px;
+  margin:0px;
+  padding:0px;
 }
 
 .book-list {
   flex-grow: 1;
+
 }
 
 .genre-form {
+    margin-top: 20px;
     width:250px;
     padding-left:20px;
     padding-bottom:20px;
@@ -15,5 +18,5 @@
 }
 
 .search {
-    margin-bottom:20px;
+    margin-bottom:10px;
 }

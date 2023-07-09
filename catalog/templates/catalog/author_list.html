@@ -1,8 +1,12 @@
 {% extends "catalog/base.html" %}
 
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'catalog/css/author_list.css' %}"> {% endblock %}
+
 {% block content %}
 <h1>Список авторов</h1>
-<form method="get">
+<form class='search' method="get">
     <input type="text" name="q" placeholder="Введите запрос">
     <button type="submit">Найти</button>
 </form>
@@ -11,7 +15,8 @@
 <ul>
     {% for author in results %}
     <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a> ({{author.date_of_birth}} - {{author.date_of_death}})
+        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a>
+        ({{author.date_of_birth}} - {{author.date_of_death}})
     </li>
     {% endfor %}
 </ul>

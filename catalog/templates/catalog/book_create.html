@@ -1,10 +1,21 @@
 {% extends 'catalog/base.html' %}  <!-- Если у вас есть базовый шаблон -->
 
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'catalog/css/book_create.css' %}"> {% endblock %}
+
 {% block content %}
-  <h1>Create Book</h1>
-  <form method="post">
+<h1>Добавить книгу</h1>
+
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        {% for field in form %}
+        <p>{{ field.label }}:</p>
+        {{ field }}
+        {% endfor %}
+    </div>
     <button type="submit">Создать</button>
-  </form>
+</form>
+
 {% endblock %}

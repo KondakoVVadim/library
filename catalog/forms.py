@@ -20,7 +20,7 @@ class RenewBookForm(forms.Form):
         return data
 
 
-from .models import Book
+from .models import Book, Author
 
 
 class BookForm(forms.ModelForm):
@@ -29,4 +29,18 @@ class BookForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'genre': forms.CheckboxSelectMultiple(),  # или forms.CheckboxSelectMultiple()
+        }
+
+
+class AuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_death': forms.DateInput(attrs={'type': 'date'})
+        }
+        initial = {
+            'date_of_birth': '2000-01-01',
+            'date_of_death': '2016-10-12'
         }

@@ -1,0 +1,23 @@
+{% extends "catalog/base.html" %}
+
+{% load static %}
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'catalog/css/author_create.css' %}"> {% endblock %}
+{% block content %}
+
+<h1>Добавить автора</h1>
+
+<div class="form">
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {% for field in form %}
+            <p>{{ field.label }}:</p>
+            {{ field }}
+            {% endfor %}
+        </div>
+        <button type="submit">Создать</button>
+    </form>
+</div>
+{% endblock %}
