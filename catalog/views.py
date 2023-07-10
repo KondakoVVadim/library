@@ -20,7 +20,7 @@ from .forms import RenewBookForm
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .forms import BookForm, AuthorForm
+from .forms import BookForm, AuthorForm, BookInstanceForm
 
 import datetime
 
@@ -144,8 +144,8 @@ class RenewBookForm(forms.Form):
 
         if data < today:
             raise ValidationError('Неверная дата - продление в прошлом')
-        # elif data > today + datetime.timedelta(weeks=4):
-        #     raise ValidationError('Неверная дата - продление более чем на 4 недели вперед')
+        elif data > today + datetime.timedelta(weeks=4):
+            raise ValidationError('Неверная дата - продление более чем на 4 недели вперед')
 
         return data
 
@@ -231,8 +231,8 @@ class BookDelete(DeleteView):
 
 class BookInstanceCreate(CreateView):
     model = BookInstance
-    fields = '__all__'
-    success_url = reverse_lazy('bookInstance-create')
+    form_class = BookInstanceForm
+    template_name = 'catalog/book_create.html'
 
 
 class BookInstanceUpdate(UpdateView):

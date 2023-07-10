@@ -12,15 +12,15 @@ class RenewBookForm(forms.Form):
         data = self.cleaned_data['renewal_date']
 
         if data < datetime.date.today():
-            raise ValidationError(('Неверная дата - продление в прошлом'))
+            raise ValidationError(('Неверная дата - продление в прошлом жопа'))
 
-        elif data > datetime.date.today() + datetime.timedelta(weeks=4):
+        elif data > datetime.date.today() + datetime.timedelta(weeks=3):
             raise ValidationError(('Неверная дата - продление более чем на 4 недели вперед'))
 
         return data
 
 
-from .models import Book, Author
+from .models import Book, Author, BookInstance
 
 
 class BookForm(forms.ModelForm):
@@ -44,3 +44,8 @@ class AuthorForm(forms.ModelForm):
             'date_of_birth': '2000-01-01',
             'date_of_death': '2016-10-12'
         }
+
+class BookInstanceForm(forms.ModelForm):
+    class Meta:
+        model = BookInstance
+        fields = '__all__'
