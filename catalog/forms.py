@@ -8,17 +8,6 @@ class RenewBookForm(forms.Form):
     renewal_date = forms.DateField(label='Дата возврата',
                                    help_text="Введите дату между настоящим моментом и 4 неделями (по умолчанию 3).")
 
-    def clean_renewal_date(self):
-        data = self.cleaned_data['renewal_date']
-
-        if data < datetime.date.today():
-            raise ValidationError(('Неверная дата - продление в прошлом жопа'))
-
-        elif data > datetime.date.today() + datetime.timedelta(weeks=3):
-            raise ValidationError(('Неверная дата - продление более чем на 4 недели вперед'))
-
-        return data
-
 
 from .models import Book, Author, BookInstance
 
