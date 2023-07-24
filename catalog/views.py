@@ -286,3 +286,6 @@ class SignUp(CreateView):
             # Если есть ошибки, передаем их в контекст представления
             context = self.get_context_data(form=form)
             return self.render_to_response(context)
+
+class vladpidor:
+    x = 1
