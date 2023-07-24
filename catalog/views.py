@@ -81,8 +81,6 @@ class BookListView(generic.ListView):
         return context
 
 
-
-
 class BookDetailView(generic.TemplateView):
     template_name = 'catalog/book_detail.html'
 
