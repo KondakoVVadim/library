@@ -25,6 +25,7 @@ from .forms import BookForm, AuthorForm, BookInstanceForm
 import datetime
 
 
+
 def index(request):
     """
     Функция отображения для домашней страницы сайта.

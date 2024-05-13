@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('books/', views.BookListView.as_view(), name='books'),
@@ -28,7 +27,6 @@ urlpatterns += [
 
 ]
 
-
 urlpatterns += [
     path('return-book/<str:id>/', views.return_book, name='return-book'),
     path('bookInstance/create/', views.BookInstanceCreate.as_view(), name='bookInstance-create'),
@@ -40,4 +38,13 @@ urlpatterns += [
 urlpatterns += [
     path('<str:id>', views.get_book),
     path("signup/", views.SignUp.as_view(), name="signup"),
+]
+
+from . import api
+
+urlpatterns += [
+    path('api/genre', api.GenreListAPIView.as_view(), name='api_genre'),
+    path('api/authors', api.AuthorListAPIView.as_view(), name='api_authors'),
+    path('api/bookInstance', api.BookInstanceListAPIView.as_view()),
+    path('api/book', api.BookListAPIView.as_view())
 ]
